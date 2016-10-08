@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "#' subsets the rows in the data that were selected in dataViewer\n#'\n#' subsets the rows in the data that were selected in dataViewer\n#'\n#' @param data the dataframe\n#' @param clicked_data the dataframe of clicked points\n#' @export\n\nget_clicked <- function(data, clicked_data){\n  x.1p <- do.call(\"paste\", data)\n  x.2p <- do.call(\"paste\", clicked_data)\n  data[x.1p %in% x.2p, ]\n}\n\n",
+    "created" : 1475932669125.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3022941981",
+    "id" : "5646FCCB",
+    "lastKnownWriteTime" : 1475932953,
+    "last_content_update" : 1475932953847,
+    "path" : "~/Desktop/R/dataViewer/R/get_clicked.R",
+    "project_path" : "R/get_clicked.R",
+    "properties" : {
+        "chunk_rendered_width" : "627",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
