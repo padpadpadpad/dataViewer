@@ -4,54 +4,33 @@
 \alias{dataViewer}
 \title{an interactive addin to help visualise data and identifiy outliers}
 \usage{
-dataViewer(data, predictions = NULL, id_col = NULL, x, y, col = NULL,
+dataViewer(data, x, y, predictions = NULL, id_col = NULL, col = NULL,
   group = NULL, lm_fit = FALSE)
 }
 \arguments{
-\item{data}{the data frame that contains your raw data}
-
-\item{predictions}{the data frame that contains your predictions if desired}
-
-\item{id_col}{the column that splits your data frame by}
+\item{data}{a data frame that contains the raw data}
 
 \item{x}{the x variable}
 
 \item{y}{the y variable}
 
-\item{col}{an optional variable if different colours are desired for each plot}
+\item{predictions}{a data frame that contains the predictions if desired}
 
-\item{group}{an optional variable for grouping model predictions when there are multiple prediction lines on a single plot}
+\item{id_col}{the column that splits the data frame into separate plots}
+
+\item{col}{an optional variable if different colours are desired on each plot}
+
+\item{group}{an optional variable for grouping model predictions when there are multiple predictions on a single plot}
 
 \item{lm_fit}{whether or not you want a linear model fit to be superimposed over the data. Defaults to FALSE}
 }
 \value{
-a dataframe of the rows that are to be deleted
+a dataframe of points that were clicked
 }
 \description{
-opens a pane from which you can select each set of data and select points to be dropped. The undo button gets rid of the last selection. Press "DONE" to get a dataframe of the selected outliers.
+opens a pane from which you can select each set of data and select points to be dropped. The undo button gets rid of the last selection. Press "DONE" to get a dataframe of the selected points.
 }
 \details{
 an interactive addin to help visualise data and identify outliers
-}
-\examples{
-# load in data
-
-data("Chlorella_TRC")
-Chlorella_TRC_test <- Chlorella_TRC[Chlorella_TRC$curve_id \%in\% c(1:10),]
-
-# run nlsLoop()
-
-fits <- nlsLoop(ln.rate ~ schoolfield.high(ln.c, Ea, Eh, Th, temp = K, Tc = 20),
-                data = Chlorella_TRC_test,
-                tries = 500,
-                id_col = 'curve_id',
-                param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
-                lower = c(ln.c=-10, Ea=0, Eh=0, Th=0))
-
-\dontrun{
-outliers <- dataViewer(data = Chlorella_TRC_test, predictions = fits$predictions,
-id_col = 'curve_id', x = 'K', y = 'ln.rate')
-}
-
 }
 
