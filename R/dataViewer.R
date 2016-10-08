@@ -121,10 +121,10 @@ dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL
 
       # Undo last click
       shiny::observeEvent(input$undo_last_point,{
-        last_row <- tail(vals$number_of_points, 1)
+        last_row <- utils::tail(vals$number_of_points, 1)
         vals$number_of_points <- vals$number_of_points[-length(vals$number_of_points)]
 
-        vals$deleted_rows <- head(vals$deleted_rows, nrow(vals$deleted_rows) - last_row)
+        vals$deleted_rows <- utils::head(vals$deleted_rows, nrow(vals$deleted_rows) - last_row)
 
       })
 
