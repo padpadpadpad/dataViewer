@@ -1,36 +1,26 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+dataViewer
+==========
 
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-# dataViewer
-
-__Daniel Padfield,__ dp323@exeter.ac.uk
+**Daniel Padfield,** <dp323@exeter.ac.uk>
 
 An RStudio Addin for data visualisation, exploratory analysis and identifying outliers.
 
-## Issues and suggestions
+Issues and suggestions
+----------------------
 
 Please report any issues or suggestions in the issues tab [here](https://github.com/padpadpadpad/dataViewer/issues)
 
 Mac : [![Build Status](https://travis-ci.org/padpadpadpad/dataViewer.svg?branch=master)](https://travis-ci.org/padpadpadpad/dataViewer)
 
-## Overview and installation
+Overview and installation
+-------------------------
 
 dataViewer is a package containing an RStudio addin that allows for visualisation of large datasets, exploratory analyses and easier identification of points of interest within the dataset.
 
-```{r eval = F}
+``` r
 devtools::install_github('padpadpadpad/dataViewer')
 
 library(dataViewer)
 ```
-

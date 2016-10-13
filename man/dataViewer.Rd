@@ -4,7 +4,7 @@
 \alias{dataViewer}
 \title{an interactive addin to help visualise data and identifiy outliers}
 \usage{
-dataViewer(data, x, y, predictions = NULL, id_col = NULL, col = NULL,
+dataViewer(data, x, y, predictions = NULL, id_cols = NULL, col = NULL,
   group = NULL, lm_fit = FALSE)
 }
 \arguments{
@@ -16,7 +16,7 @@ dataViewer(data, x, y, predictions = NULL, id_col = NULL, col = NULL,
 
 \item{predictions}{a data frame that contains the predictions if desired}
 
-\item{id_col}{the column that splits the data frame into separate plots}
+\item{id_cols}{the columns that split the data frame into separate plots}
 
 \item{col}{an optional variable if different colours are desired on each plot}
 
