@@ -5,7 +5,7 @@
 #' @param data a data frame that contains the raw data
 #' @param x the x variable
 #' @param y the y variable
-#' @param id_col the column that splits the data frame into separate plots
+#' @param id_cols the columns that split the data frame into separate plots
 #' @param col an optional variable if different colours are desired on each plot
 #' @param predictions a data frame that contains the predictions if desired
 #' @param group an optional variable for grouping model predictions when there are multiple predictions on a single plot
@@ -14,7 +14,7 @@
 #' @description opens a pane from which you can select each set of data and select points to be dropped. The undo button gets rid of the last selection. Press "DONE" to get a dataframe of the selected points.
 #' @export
 
-dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL, group = NULL, lm_fit = FALSE){
+dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NULL, group = NULL, lm_fit = FALSE){
 
     # delete NAs from dataset
     data <- data[!is.na(data[,y]),]
@@ -24,18 +24,33 @@ dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL
     cols <- colnames(data)
 
     # one id column
-    if(is.null(id_col)){
-      id_col <-  'id_col'
-      data$id_col <- 'ALL THE DATA'}
+    if(is.null(id_cols)){
+      data[,'id_col'] <- 'ALL THE DATA'
+      if(!is.null(predictions)){
+        predictions[,'id_col' <- 'ALL THE DATA']
+      }}
+    if(length(id_cols) == 1){
+      data[,'id_col'] <- data[,id_cols]
+      if(!is.null(predictions)){
+        predictions[,'id_col'] <- predictions[,id_cols]
+      }}
+    if(length(id_cols) > 1){
+      data <- tidyr::unite_(data, 'id_col', c(id_cols), sep = ' ', remove = F)
+      if(!is.null(predictions)){
+        predictions <- tidyr::unite_(predictions, 'id_col', c(id_cols), sep = ' ', remove = F)
+      }
+    }
+
 
     # create all id_col
-    id <- unique(as.character(data[,id_col]))
+    data <- data.frame(data)
+    id <- unique(as.character(data[,'id_col']))
 
     # if missing col
     if(is.null(col)){
       data$col <- 'black'}
     if(is.null(group)){
-      group = id_col}
+      group = 'id_col'}
 
     # define the UI for the gadget
     ui <- miniUI::miniPage(
@@ -65,9 +80,9 @@ dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL
       # Define plot1
       output$plot1 <- shiny::renderPlot({
         # subset for keep rows
-        dat <- data[data[,id_col] == input$data,]
-        keep    <- get_unclicked(dat, vals$deleted_rows)
-        exclude <- get_clicked(dat, vals$deleted_rows)
+        dat <- data[data[,'id_col'] == input$data,]
+        keep    <- dataViewer::get_unclicked(dat, vals$deleted_rows)
+        exclude <- dataViewer::get_clicked(dat, vals$deleted_rows)
 
         ggplot2::update_geom_defaults("smooth", list(colour = 'red', fill = 'red'))
         ggplot2::update_geom_defaults("line", list(colour = 'red', linetype = 2))
@@ -75,8 +90,6 @@ dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL
         # no predictions
         if(is.null(predictions)){
           if(lm_fit == TRUE){
-
-
 
             # plot 1
             ggplot2::ggplot() +
@@ -94,7 +107,7 @@ dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL
             }
           } else {
           # with predictions
-          preds <- predictions[predictions[,id_col] == input$data,]
+          preds <- predictions[predictions[,'id_col'] == input$data,]
           # plot 1
           ggplot2::ggplot() +
             ggplot2::geom_line(ggplot2::aes_string(x = x, y = y, col = col, group = group), linetype = 2, size = 1.5, preds) +
@@ -108,13 +121,13 @@ dataViewer <- function(data, x, y, predictions = NULL, id_col = NULL, col = NULL
 
       # Make points that are clicked turn grey
       shiny::observeEvent(input$plot1_click,{
-        dat <- data[data[,id_col] == input$data,]
+        dat <- data[data[,'id_col'] == input$data,]
         vals$number_of_points <- c(vals$number_of_points, 1)
         vals$deleted_rows <- rbind(vals$deleted_rows, shiny::nearPoints(dat, input$plot1_click, allRows = FALSE))
-      })
+        })
 
       shiny::observeEvent(input$plot1_brush,{
-        dat <- data[data[,id_col] == input$data,]
+        dat <- data[data[,'id_col'] == input$data,]
         vals$number_of_points <- c(vals$number_of_points, nrow(shiny::brushedPoints(dat, input$plot1_brush, allRows = FALSE)))
         vals$deleted_rows <- rbind(vals$deleted_rows, shiny::brushedPoints(dat, input$plot1_brush, allRows = FALSE))
       })
