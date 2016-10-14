@@ -24,3 +24,24 @@ devtools::install_github('padpadpadpad/dataViewer')
 
 library(dataViewer)
 ```
+
+Quick set up
+------------
+
+`dataViewer::dataViewer()` opens up an RStudio addin and allows for interactive point selection. These features could be useful for outlier detection, exploring your dataset or simply identifying points that need further investigation.
+
+So lets see how it works with the `diamonds` dataset from `ggplot2`.
+
+``` r
+data("diamonds")
+
+dataViewer(diamonds, x = 'carat', y = 'price', id_col = 'cut')
+```
+
+This opens an RStudio addin which plots `price ~ carat` with a different plot for each value of `cut`.
+
+You can click single points and select multiple points using a click and drag box. And after you click DONE, the points you've selected get returned to R!
+
+<p align="center">
+<img src='gifs/dataViewer_gif1.gif'/>
+</p>
