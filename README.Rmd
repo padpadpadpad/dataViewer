@@ -51,7 +51,7 @@ This opens an RStudio addin which plots `price ~ carat` with a different plot fo
 You can click single points and select multiple points using a click and drag box. And after you click DONE, the points you've selected get returned to R!
 
 <p align="center">
-  <img src='gifs/dataViewer_gif1.gif'/>
+  <img src='gifs/dataViewer_gifstart.gif'/>
 </p>
 
 
