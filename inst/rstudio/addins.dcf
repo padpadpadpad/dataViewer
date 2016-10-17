@@ -1,4 +1,4 @@
 Name: dataViewer
 Description: visualise your data and click points
-Binding: dataViewerAddin
+Binding: dataViewer
 Interactive: true
