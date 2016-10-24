@@ -41,16 +41,12 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
       }
     }
 
+    # create column for col if it missing to go to defaults
+    if(!is.null(col)){data[,'col'] <- 'You cannot handle the colour'}
 
     # create all id_col
     data <- data.frame(data)
     id <- unique(as.character(data[,'id_col']))
-
-    # if missing col
-    if(is.null(col)){
-      data$col <- 'black'}
-    if(is.null(group)){
-      group = 'id_col'}
 
     # define the UI for the gadget
     ui <- miniUI::miniPage(
@@ -58,11 +54,11 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
       miniUI::gadgetTitleBar("dataViewer"),
       # set up content panel
       miniUI::miniContentPanel(
-                  shiny::selectInput("data", "Choose curve:", choices = id),
+                  shiny::fillCol(shiny::selectInput("data", "Choose curve:", choices = id),
                   shiny::plotOutput("plot1",
                            click = "plot1_click",
                            brush = shiny::brushOpts(id = 'plot1_brush',
-                                                    resetOnNew = TRUE))),
+                                                    resetOnNew = TRUE), height = '100%'), flex = c(NA,1)), padding = 10),
       miniUI::miniButtonBlock(
         shiny::actionButton("go_to_previous", "Previous"),
         shiny::actionButton("undo_last_point", "Undo"),
@@ -93,14 +89,17 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
 
             # plot 1
             ggplot2::ggplot() +
-              ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), size = 3, keep) +
-              ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), shape = 21, size = 3, exclude, alpha = 0.75) +
+                ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), size = 3, keep) +
+                ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), shape = 21, size = 3, exclude, alpha = 0.75) +
+                ggplot2::stat_smooth(ggplot2::aes_string(x = x, y = y, col = col, fill = col), method = 'lm', se = T, keep) +
               ggplot2::theme_bw(base_size = 18, base_family = 'Helvetica') +
-              ggplot2::ggtitle(input$data) +
-              ggplot2::stat_smooth(ggplot2::aes_string(x = x, y = y, col = col, fill = col), method = 'lm', se = T, keep)
-          } else{
+              ggplot2::ggtitle(input$data)
+
+          }
+            else{
             ggplot2::ggplot() +
               ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), size = 3, keep) +
+              ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), shape = 21, size = 3, exclude, alpha = 0.75) +
               ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), shape = 21, size = 3, exclude, alpha = 0.75) +
               ggplot2::theme_bw(base_size = 18, base_family = 'Helvetica') +
               ggplot2::ggtitle(input$data)
@@ -167,6 +166,6 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
 
       }
     # Run the app in the dialog viewer
-    shiny::runGadget(ui, server, viewer = shiny::dialogViewer('dataViewer', width = 700, height = 1200))
+    shiny::runGadget(ui, server, viewer = shiny::dialogViewer('dataViewer', width = 700, height = 900))
   }
 
