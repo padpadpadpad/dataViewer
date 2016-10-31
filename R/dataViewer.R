@@ -114,7 +114,12 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
             ggplot2::geom_point(ggplot2::aes_string(x = x, y = y, col = col), shape = 21, size = 3, exclude, alpha = 0.75) +
             ggplot2::theme_bw(base_size = 18, base_family = 'Helvetica') +
             ggplot2::ggtitle(input$data)
-            }
+          }
+
+        if("ggplot2" %in% (.packages())){
+          suppressMessages(suppressWarnings(detach("package:ggplot2", unload=TRUE)))
+          suppressMessages(suppressWarnings(library(ggplot2)))
+        }
 
     })
 
@@ -156,6 +161,8 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
 
       # When the Done button is clicked, return a value
       shiny::observeEvent(input$done, {
+
+
         deleted_rows <- vals$deleted_rows
         deleted_rows <- deleted_rows[,colnames(deleted_rows) %in% cols]
         # Return the kept points ###
