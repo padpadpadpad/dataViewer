@@ -80,9 +80,6 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
         keep    <- dataViewer::get_unclicked(dat, vals$deleted_rows)
         exclude <- dataViewer::get_clicked(dat, vals$deleted_rows)
 
-        ggplot2::update_geom_defaults("smooth", list(colour = 'red', fill = 'red'))
-        ggplot2::update_geom_defaults("line", list(colour = 'red', linetype = 2))
-
         # no predictions
         if(is.null(predictions)){
           if(lm_fit == TRUE){
@@ -115,11 +112,6 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
             ggplot2::theme_bw(base_size = 18, base_family = 'Helvetica') +
             ggplot2::ggtitle(input$data)
           }
-
-        if("ggplot2" %in% (.packages())){
-          suppressMessages(suppressWarnings(detach("package:ggplot2", unload=TRUE)))
-          suppressMessages(suppressWarnings(library(ggplot2)))
-        }
 
     })
 
@@ -161,7 +153,6 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
 
       # When the Done button is clicked, return a value
       shiny::observeEvent(input$done, {
-
 
         deleted_rows <- vals$deleted_rows
         deleted_rows <- deleted_rows[,colnames(deleted_rows) %in% cols]
