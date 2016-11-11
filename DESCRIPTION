@@ -13,4 +13,5 @@ LazyData: true
 RoxygenNote: 5.0.1
 Imports: miniUI,
     shiny,
-    ggplot2
+    ggplot2,
+    tidyr
