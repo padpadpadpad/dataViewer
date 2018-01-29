@@ -2,3 +2,6 @@
 dataViewer_test.R
 .Rhistory
 .Rbuildignore
+gifs/\.DS_Store
+
+\.DS_Store

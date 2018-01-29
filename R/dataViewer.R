@@ -153,6 +153,6 @@ dataViewer <- function(data, x, y, predictions = NULL, id_cols = NULL, col = NUL
 
   }
   # Run the app in the dialog viewer
-  shiny::runGadget(ui, server, viewer = shiny::dialogViewer('dataViewer', width = 700, height = 900))
+  shiny::runGadget(ui, server, viewer = shiny::dialogViewer('dataViewer', width = 900, height = 700))
 }
 
